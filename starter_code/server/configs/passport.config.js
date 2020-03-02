@@ -1,12 +1,39 @@
-const mongoose = require('mongoose');
+const User = require("../models/User.model");
+const LocalStrategy = require("passport-local").Strategy;
+const bcrypt = require("bcryptjs");
+const passport = require("passport");
 
-mongoose
-  .connect(`mongodb://localhost/${process.env.DB}`, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(x => {
-    console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
-  })
-  .catch(err => {
-    console.error('Error connecting to mongo', err)
+passport.serializeUser((loggedInUser, cb) => cb(null, loggedInUser._id));
+
+passport.deserializeUser((userIdFromSession, cb) => {
+  User.findById(userIdFromSession, (err, userDocument) => {
+    if (err) {
+      cb(err);
+      return;
+    }
+    cb(null, userDocument);
   });
+});
 
-module.exports = mongoose;
+passport.use(
+  new LocalStrategy((username, password, next) => {
+    User.findOne({ username }, (err, foundUser) => {
+      if (err) {
+        next(err);
+        return;
+      }
+
+      if (!foundUser) {
+        next(null, false, { message: "Usuario no registrado." });
+        return;
+      }
+
+      if (!bcrypt.compareSync(password, foundUser.password)) {
+        next(null, false, { message: "Contraseña incorrecta." });
+        return;
+      }
+
+      next(null, foundUser);
+    });
+  })
+);
