@@ -16,11 +16,18 @@ am4core.useTheme(am4themes_animated);
 class Details extends Component {
   constructor(props) {
     super(props);
-    this.cash = this.props.loggedInUser.cash
-      .toString()
-      .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+    this.state = {
+      quantity: 0,
+      cash: this.props.loggedInUser.cash
+        .toString()
+        .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","),
+      actualValue: 0
+    };
+    // this.cash = this.props.loggedInUser.cash
+    //   .toString()
+    //   .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
     this.services = new TradingServices();
-    this.actualValue = 0;
+    //this.actualValue = 0;
   }
   componentDidMount() {
     //Crea chart en ID de html, tipo de chart
@@ -77,6 +84,12 @@ class Details extends Component {
       .catch(err => console.log(err));
   }
 
+  handleChange = e => {
+    this.setState({ searchBar: e.target.value });
+  };
+
+  addData() {}
+
   componentWillUnmount() {
     if (this.chart) {
       this.chart.dispose();
@@ -106,7 +119,8 @@ class Details extends Component {
                   <Form.Control
                     type="text"
                     name="cuantifier"
-                    //onChange={this.handleChange}
+                    value={this.quantity}
+                    onChange={this.handleChange}
                   />
                 </Form.Group>
                 <p>Valor actual {this.actualValue}</p>
