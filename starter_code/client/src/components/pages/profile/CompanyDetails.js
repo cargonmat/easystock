@@ -19,13 +19,14 @@ class Details extends Component {
     this.cash = this.props.loggedInUser.cash
       .toString()
       .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+    this.services = new TradingServices();
   }
   componentDidMount() {
     //Crea chart en ID de html, tipo de chart
     let chart = am4core.create("chartdiv", am4charts.XYChart);
     //styles
     chart.paddingRight = 20;
-    this.services = new TradingServices();
+
     //getting the data
     this.services
       .daily(this.props.match.params.symbol)
