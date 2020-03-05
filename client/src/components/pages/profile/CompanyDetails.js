@@ -19,7 +19,7 @@ class Details extends Component {
     this.cash = this.props.loggedInUser.cash
       .toString()
       .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-    this.actualValue = 0;
+
     this.services = new TradingServices();
     this.services.daily(this.props.match.params.symbol).then(theCompanies => {
       let values = Object.values(theCompanies);
