@@ -125,7 +125,7 @@ class Details extends Component {
                 <Form.Group>
                   <Form.Label>Adquirir Acciones</Form.Label>
                   <Form.Control
-                    type="text"
+                    type="number"
                     name="quantity"
                     value={this.state.quantity}
                     onChange={this.handleChange}
