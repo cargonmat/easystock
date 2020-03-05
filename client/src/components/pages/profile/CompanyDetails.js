@@ -90,7 +90,8 @@ class Details extends Component {
 
   buyShares = e => {
     e.preventDefault();
-    let buy = (this.cash -= this.state.quantity * this.state.actualValue);
+    let buy = (Number(this.cash) -=
+      Number(this.state.quantity) * Number(this.state.actualValue));
     this.setState({ cash: buy });
     console.log(buy);
   };
