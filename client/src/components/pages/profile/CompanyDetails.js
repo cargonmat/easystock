@@ -23,11 +23,11 @@ class Details extends Component {
         .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","),
       actualValue: 0
     };
-    // this.cash = this.props.loggedInUser.cash
-    //   .toString()
-    //   .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+    this.cash = this.props.loggedInUser.cash
+      .toString()
+      .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
     this.services = new TradingServices();
-    //this.actualValue = 0;
+    this.actualValue = 0;
   }
   componentDidMount() {
     //Crea chart en ID de html, tipo de chart
