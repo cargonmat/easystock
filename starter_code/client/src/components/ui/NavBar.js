@@ -38,11 +38,15 @@ class Navigation extends Component {
           <Nav className="ml-auto">
             <Nav.Link as="div">
               {" "}
-              <Link to="/">Inicio</Link>
+              <Link to="/" className="noDetail">
+                Inicio
+              </Link>
             </Nav.Link>
             <Nav.Link as="div">
               {" "}
-              <Link to="/profile">Perfil</Link>
+              <Link to="/profile" className="noDetail">
+                Perfil
+              </Link>
             </Nav.Link>
             <Nav.Link onClick={this.logout}>Cerrar sesión</Nav.Link>
             <Nav.Link as="small">{greeting}</Nav.Link>
@@ -51,21 +55,27 @@ class Navigation extends Component {
       </Navbar>
     ) : (
       <Navbar bg="dark" expand="lg" variant="dark">
-        <Navbar.Brand href="#home">easystock!</Navbar.Brand>
+        <Navbar.Brand href="/">easystock!</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
             <Nav.Link as="div">
               {" "}
-              <Link to="/">Inicio</Link>
+              <Link to="/" className="noDetail">
+                Inicio
+              </Link>
             </Nav.Link>
             <Nav.Link as="div">
               {" "}
-              <Link to="/signup">Registro</Link>
+              <Link to="/signup" className="noDetail">
+                Registro
+              </Link>
             </Nav.Link>
             <Nav.Link as="div">
               {" "}
-              <Link to="/login">Inicio sesión</Link>
+              <Link to="/login" className="noDetail">
+                Inicio sesión
+              </Link>
             </Nav.Link>
             <Nav.Link as="small">{greeting}</Nav.Link>
           </Nav>

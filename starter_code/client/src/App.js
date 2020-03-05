@@ -11,6 +11,7 @@ import Signup from "./components/pages/auth/signup/Signup";
 import Profile from "./components/pages/profile/Profile";
 import Login from "./components/pages/auth/login/Login";
 import Home from "./components/pages/home/Home";
+import Details from "./components/pages/profile/CompanyDetails";
 
 import AuthServices from "./services/auth.services";
 
@@ -60,6 +61,16 @@ class App extends Component {
             render={() =>
               this.state.loggedInUser ? (
                 <Profile loggedInUser={this.state.loggedInUser} />
+              ) : (
+                <Redirect to="/" />
+              )
+            }
+          />
+          <Route
+            path="/details/:symbol"
+            render={props =>
+              this.state.loggedInUser ? (
+                <Details loggedInUser={this.state.loggedInUser} {...props} />
               ) : (
                 <Redirect to="/" />
               )

@@ -16,13 +16,13 @@ authRoutes.post("/signup", (req, res, next) => {
     return;
   }
 
-  if (password.length < 7) {
-    res.status(400).json({
-      message:
-        "Please make your password at least 8 characters long for security purposes."
-    });
-    return;
-  }
+  // if (password.length < 7) {
+  //   res.status(400).json({
+  //     message:
+  //       "Please make your password at least 8 characters long for security purposes."
+  //   });
+  //   return;
+  // }
 
   User.findOne({ username }, (err, foundUser) => {
     if (err) {
@@ -40,7 +40,8 @@ authRoutes.post("/signup", (req, res, next) => {
 
     const aNewUser = new User({
       username: username,
-      password: hashPass
+      password: hashPass,
+      cash: 100000
     });
 
     aNewUser.save(err => {
