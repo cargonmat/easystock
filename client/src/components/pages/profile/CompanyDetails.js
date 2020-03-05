@@ -88,7 +88,7 @@ class Details extends Component {
     this.setState({ quantity: e.target.value });
   };
 
-  addData() {
+  buyShares() {
     let buy = (this.cash -= this.state.quantity * this.state.actualValue);
     this.setState({ cash: buy });
   }
@@ -113,10 +113,11 @@ class Details extends Component {
             <Row>
               {" "}
               <p>Tus ahorros: {this.cash} USD</p>
+              <p>Valor actual de acciones {this.state.actualValue} USD</p>
             </Row>{" "}
             <Row> {/* //<p>Valor actual: {this.result[0]} USD</p> */}</Row>{" "}
             <Row>
-              <Form onSubmit={this.addData}>
+              <Form onSubmit={this.buyShares}>
                 <Form.Group>
                   <Form.Label>Adquirir Acciones</Form.Label>
                   <Form.Control
@@ -126,7 +127,7 @@ class Details extends Component {
                     onChange={this.handleChange}
                   />
                 </Form.Group>
-                <p>Valor actual {this.state.actualValue} USD</p>
+
                 <Button variant="dark" type="submit">
                   Comprar{" "}
                 </Button>
