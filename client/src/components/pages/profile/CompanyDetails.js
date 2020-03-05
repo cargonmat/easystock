@@ -91,6 +91,7 @@ class Details extends Component {
   buyShares() {
     let buy = (this.cash -= this.state.quantity * this.state.actualValue);
     this.setState({ cash: buy });
+    console.log(buy);
   }
 
   componentWillUnmount() {
@@ -113,6 +114,8 @@ class Details extends Component {
             <Row>
               {" "}
               <p>Tus ahorros: {this.cash} USD</p>
+            </Row>{" "}
+            <Row>
               <p>Valor actual de acciones {this.state.actualValue} USD</p>
             </Row>{" "}
             <Row> {/* //<p>Valor actual: {this.result[0]} USD</p> */}</Row>{" "}
