@@ -20,6 +20,7 @@ class Details extends Component {
       .toString()
       .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
     this.services = new TradingServices();
+    this.actualValue = undefined;
   }
   componentDidMount() {
     //Crea chart en ID de html, tipo de chart
@@ -34,7 +35,8 @@ class Details extends Component {
         let values = Object.values(theCompanies);
         let dates = Object.keys(theCompanies);
         let result = values.map(a => Number(a["4. close"]));
-
+        console.log(result[0]);
+        this.actualValue = result[0];
         //Monta el data para el chart
         let data = [];
         for (let i = 1; i < result.length; i++) {
@@ -105,6 +107,7 @@ class Details extends Component {
                     //onChange={this.handleChange}
                   />
                 </Form.Group>
+                <p>Valor actual {this.actualValue}</p>
                 <Button variant="dark" type="submit">
                   Comprar{" "}
                 </Button>

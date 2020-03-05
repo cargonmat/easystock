@@ -17,4 +17,8 @@ require("./configs/session.config")(app);
 app.use("/api/auth", require("./routes/auth.routes"));
 app.use("/api/trading", require("./routes/trading.routes"));
 
+app.use((req, res) => {
+  res.sendFile(__dirname + "/public/index.html");
+});
+
 module.exports = app;
