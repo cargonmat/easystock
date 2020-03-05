@@ -88,7 +88,10 @@ class Details extends Component {
     this.setState({ quantity: e.target.value });
   };
 
-  addData() {}
+  addData() {
+    let buy = (this.cash -= this.state.quantity * this.state.actualValue);
+    this.setState({ cash: buy });
+  }
 
   componentWillUnmount() {
     if (this.chart) {
