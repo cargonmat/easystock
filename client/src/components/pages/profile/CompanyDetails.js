@@ -20,7 +20,7 @@ class Details extends Component {
       .toString()
       .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
     this.services = new TradingServices();
-    this.actualValue = undefined;
+    this.actualValue = 0;
   }
   componentDidMount() {
     //Crea chart en ID de html, tipo de chart
