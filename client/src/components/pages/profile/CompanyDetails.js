@@ -88,6 +88,7 @@ class Details extends Component {
         {this.cash && (
           <Container>
             <h1>Trading data</h1>
+            <h3>{this.props.match.params.symbol}</h3>
             <Row
               id="chartdiv"
               style={{ width: "100%", height: "500px" }}
