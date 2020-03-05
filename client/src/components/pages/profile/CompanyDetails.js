@@ -85,7 +85,7 @@ class Details extends Component {
   }
 
   handleChange = e => {
-    this.setState({ searchBar: e.target.value });
+    this.setState({ quantity: e.target.value });
   };
 
   addData() {}
@@ -118,12 +118,12 @@ class Details extends Component {
                   <Form.Label>Adquirir Acciones</Form.Label>
                   <Form.Control
                     type="text"
-                    name="cuantifier"
-                    value={this.quantity}
+                    name="quantity"
+                    value={this.state.quantity}
                     onChange={this.handleChange}
                   />
                 </Form.Group>
-                <p>Valor actual {this.state.actualValue}</p>
+                <p>Valor actual {this.state.actualValue} USD</p>
                 <Button variant="dark" type="submit">
                   Comprar{" "}
                 </Button>
