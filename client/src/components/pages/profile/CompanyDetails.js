@@ -18,6 +18,7 @@ class Details extends Component {
     super(props);
     this.state = {
       quantity: 0,
+      numCash: this.props.loggedInUser.cash,
       cash: this.props.loggedInUser.cash
         .toString()
         .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","),
@@ -90,7 +91,7 @@ class Details extends Component {
 
   buyShares = e => {
     e.preventDefault();
-    let buy = (Number(this.cash) -=
+    let buy = (this.numCash -=
       Number(this.state.quantity) * Number(this.state.actualValue));
     this.setState({ cash: buy });
     console.log(buy);
