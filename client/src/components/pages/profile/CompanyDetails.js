@@ -19,15 +19,8 @@ class Details extends Component {
     this.cash = this.props.loggedInUser.cash
       .toString()
       .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-
     this.services = new TradingServices();
-    this.services.daily(this.props.match.params.symbol).then(theCompanies => {
-      let values = Object.values(theCompanies);
-      let dates = Object.keys(theCompanies);
-      let result = values.map(a => Number(a["4. close"]));
-      console.log(result[0]);
-      this.actualValue = result[0];
-    });
+    this.actualValue = 0;
   }
   componentDidMount() {
     //Crea chart en ID de html, tipo de chart
@@ -44,6 +37,7 @@ class Details extends Component {
         let result = values.map(a => Number(a["4. close"]));
         console.log(result[0]);
         this.actualValue = result[0];
+        console.log(this.actualValue);
         //Monta el data para el chart
         let data = [];
         for (let i = 1; i < result.length; i++) {
