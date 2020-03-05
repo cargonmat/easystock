@@ -94,7 +94,7 @@ class Details extends Component {
     let buy = (this.numCash -=
       Number(this.state.quantity) * Number(this.state.actualValue));
     this.setState({ cash: buy });
-    console.log(buy);
+    console.log(typeof this.state.actualValue);
   };
 
   componentWillUnmount() {
