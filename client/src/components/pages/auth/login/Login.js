@@ -13,7 +13,7 @@ class Login extends Component {
       username: "",
       password: ""
     };
-    this.services = new AuthServices();
+    this.authservices = new AuthServices();
   }
 
   handleChange = e => {
@@ -22,7 +22,7 @@ class Login extends Component {
   };
 
   postUser = () => {
-    this.services
+    this.authservices
       .login(this.state)
       .then(theLoggedUser => {
         this.setState({ username: "", password: "" });

@@ -112,4 +112,26 @@ authRoutes.get("/loggedin", (req, res, next) => {
   res.status(403).json({ message: "Unauthorized" });
 });
 
+authRoutes.post("/buyshares", (req, res, next) => {
+  // req.isAuthenticated() is defined by passport
+  console.log(req.body.shares);
+  if (req.isAuthenticated()) {
+    User.findByIdAndUpdate(
+      req.user._id,
+      { cash: req.body.cash, shares: req.body.shares },
+      { new: true }
+    )
+      .then(userUpdated => {
+        console.log(req.body);
+        res.status(200).json(userUpdated);
+      })
+      .catch(err => console.log(err));
+    // User.findByIdAndUpdate(
+    //   req.user._id,
+
+    //   //{ new: true }
+    // );
+  }
+});
+
 module.exports = authRoutes;

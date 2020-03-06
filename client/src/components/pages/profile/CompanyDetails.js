@@ -5,6 +5,8 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
 import TradingServices from "../../../services/trading.services";
+import AuthServices from "../../../services/auth.services";
+import Chart from "./Chart";
 
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
@@ -24,77 +26,43 @@ class Details extends Component {
         .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","),
       actualValue: 0
     };
-    this.cash = this.props.loggedInUser.cash
-      .toString()
-      .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-    this.services = new TradingServices();
-    this.actualValue = 0;
+    // this.cash = this.props.loggedInUser.cash
+    //   .toString()
+    //   .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+    this.tradingservices = new TradingServices();
+    this.authservices = new AuthServices();
   }
   componentDidMount() {
-    //Crea chart en ID de html, tipo de chart
-    let chart = am4core.create("chartdiv", am4charts.XYChart);
-    //styles
-    chart.paddingRight = 20;
-
-    //getting the data
-    this.services
+    this.tradingservices
       .daily(this.props.match.params.symbol)
       .then(theCompanies => {
-        let values = Object.values(theCompanies);
-        let dates = Object.keys(theCompanies);
-        let result = values.map(a => Number(a["4. close"]));
-        console.log(result[0]);
-        this.setState({ actualValue: result[0] });
-
-        //Monta el data para el chart
-        let data = [];
-        for (let i = 1; i < result.length; i++) {
-          //Data tiene que ser: Array de obj con pares XY con un ¿name?
-          data.push({
-            date: new Date(dates[0 + i]), //fecha del valor
-            name: "name" + i,
-            value: result[i] //valor de la accion
-          });
-        }
-
-        //console.log(this.props.match.params.symbol);
-        //appenda el data al chart
-        chart.data = data;
-
-        //monta eje de fechas
-        let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-        dateAxis.renderer.grid.template.location = 0;
-        //monta eje de valores
-        let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-        valueAxis.tooltip.disabled = true;
-        valueAxis.renderer.minWidth = 35;
-        //monta la linea
-        let series = chart.series.push(new am4charts.LineSeries());
-        series.dataFields.dateX = "date";
-        series.dataFields.valueY = "value";
-        //valor en el cursor
-        series.tooltipText = "{valueY.value}";
-        chart.cursor = new am4charts.XYCursor();
-        //scrollbar
-        let scrollbarX = new am4charts.XYChartScrollbar();
-        scrollbarX.series.push(series);
-        chart.scrollbarX = scrollbarX;
-
-        this.chart = chart;
+        let values = Object.values(theCompanies).map(a =>
+          Number(a["4. close"])
+        );
+        this.setState({ actualValue: values[0] });
       })
       .catch(err => console.log(err));
   }
 
-  handleChange = e => {
-    this.setState({ quantity: e.target.value });
-  };
+  handleChange = e => this.setState({ quantity: e.target.value });
 
+  
   buyShares = e => {
     e.preventDefault();
-    let buy = (this.numCash -=
-      Number(this.state.quantity) * Number(this.state.actualValue));
+    let buy = (this.state.numCash -=
+      Number(this.state.quantity) * this.state.actualValue);
+    let shares = {
+      company: this.props.match.params.symbol,
+      shares: this.state.quantity,
+      actualvalue: this.state.actualValue
+    };
+
+    // let index = this.props.loggedInUser.shares.indexOf(this.props.match.params.symbol)
+    // index > -1 ?
+    this.authservices.buyshares(buy, shares);
     this.setState({ cash: buy });
-    console.log(typeof this.state.actualValue);
+    //this.props.loggedInUser.cash = buy;
+    console.log(buy);
   };
 
   componentWillUnmount() {
@@ -106,22 +74,19 @@ class Details extends Component {
   render() {
     return (
       <>
-        {this.cash && (
+        {this.state.cash && (
           <Container>
             <h1>Trading data</h1>
             <h3>{this.props.match.params.symbol}</h3>
-            <Row
-              id="chartdiv"
-              style={{ width: "100%", height: "500px" }}
-            ></Row>{" "}
+            {/* //<Row id="chartdiv" style={{ width: "100%", height: "500px" }}></Row> */}
+            <Chart {...this.props} />
             <Row>
-              {" "}
-              <p>Tus ahorros: {this.cash} USD</p>
-            </Row>{" "}
+              <p>Tus ahorros: {this.state.cash} USD</p>
+            </Row>
             <Row>
               <p>Valor actual de acciones {this.state.actualValue} USD</p>
-            </Row>{" "}
-            <Row> {/* //<p>Valor actual: {this.result[0]} USD</p> */}</Row>{" "}
+            </Row>
+            <Row> {/* //<p>Valor actual: {this.result[0]} USD</p> */}</Row>
             <Row>
               <Form onSubmit={this.buyShares}>
                 <Form.Group>
@@ -133,9 +98,8 @@ class Details extends Component {
                     onChange={this.handleChange}
                   />
                 </Form.Group>
-
                 <Button variant="dark" type="submit">
-                  Comprar{" "}
+                  Comprar
                 </Button>
               </Form>
             </Row>

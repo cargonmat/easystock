@@ -19,4 +19,9 @@ export default class Services {
   logout = () => this.service.post("/logout").then(response => response.data);
   loggedin = () =>
     this.service.get("/loggedin").then(response => response.data);
+
+  buyshares = (cash, shares) =>
+    this.service
+      .post("/buyshares", { cash, shares })
+      .then(response => response.data);
 }

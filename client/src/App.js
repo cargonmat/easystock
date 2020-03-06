@@ -19,7 +19,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = { loggedInUser: false };
-    this.services = new AuthServices();
+    this.authservices = new AuthServices();
   }
 
   componentDidUpdate = (prevProps, prevState) =>
@@ -28,7 +28,7 @@ class App extends Component {
 
   setTheUser = userObj => this.setState({ loggedInUser: userObj });
   fetchUser = () => {
-    this.services
+    this.authservices
       .loggedin()
       .then(theUser => this.setState({ loggedInUser: theUser }))
       .catch(() => this.setState({ loggedInUser: false }));

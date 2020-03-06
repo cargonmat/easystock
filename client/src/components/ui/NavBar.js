@@ -11,11 +11,11 @@ class Navigation extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.services = new AuthServices();
+    this.authservices = new AuthServices();
   }
 
   logout = () => {
-    this.services
+    this.authservices
       .logout()
       .then(response => {
         this.props.setTheUser(false);
@@ -37,13 +37,11 @@ class Navigation extends Component {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
             <Nav.Link as="div">
-              {" "}
               <Link to="/" className="noDetail">
                 Inicio
               </Link>
             </Nav.Link>
             <Nav.Link as="div">
-              {" "}
               <Link to="/profile" className="noDetail">
                 Perfil
               </Link>
@@ -60,19 +58,16 @@ class Navigation extends Component {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
             <Nav.Link as="div">
-              {" "}
               <Link to="/" className="noDetail">
                 Inicio
               </Link>
             </Nav.Link>
             <Nav.Link as="div">
-              {" "}
               <Link to="/signup" className="noDetail">
                 Registro
               </Link>
             </Nav.Link>
             <Nav.Link as="div">
-              {" "}
               <Link to="/login" className="noDetail">
                 Inicio sesión
               </Link>

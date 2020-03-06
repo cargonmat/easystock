@@ -13,7 +13,7 @@ class Signup extends Component {
       username: "",
       password: ""
     };
-    this.services = new AuthServices();
+    this.authservices = new AuthServices();
   }
 
   handleChange = e => {
@@ -22,7 +22,7 @@ class Signup extends Component {
   };
 
   postUser = () => {
-    this.services
+    this.authservices
       .signup(this.state)
       .then(theLoggedNewUser => {
         this.setState({ username: "", password: "" });

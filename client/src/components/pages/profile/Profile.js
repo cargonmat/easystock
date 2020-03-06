@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import CompanyCard from "./CompanyCard";
+import SharesCard from "./SharesCard";
 
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 
@@ -17,17 +19,15 @@ class Profile extends Component {
       listComp: [],
       searchBar: ""
     };
-    this.services = new TradingServices();
+    this.tradingservices = new TradingServices();
   }
   // componentDidMount = () => this.addData();
 
-  handleChange = e => {
-    this.setState({ searchBar: e.target.value });
-  };
+  handleChange = e => this.setState({ searchBar: e.target.value });
 
   addData = e => {
     e.preventDefault();
-    this.services
+    this.tradingservices
       .search(this.state.searchBar)
       .then(theCompanies => {
         this.setState({ data: theCompanies });
@@ -36,9 +36,6 @@ class Profile extends Component {
   };
 
   render() {
-    const compFilter = this.state.data.filter(elm => {
-      elm["2. name"].includes(this.state.searchBar);
-    });
     let cash = this.props.loggedInUser.cash
       .toString()
       .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
@@ -49,31 +46,48 @@ class Profile extends Component {
           <h1>Bienvenido {this.props.loggedInUser.username}</h1>
         </Row>
         <Row>
-          {" "}
-          <p>Your cash: {cash} USD</p>
-        </Row>
-        <Row>
-          <Form onSubmit={this.addData}>
-            <Form.Group>
-              <Form.Label>Empresas</Form.Label>
-              <Form.Control
-                type="text"
-                name="searchBar"
-                value={this.state.searchBar}
-                onChange={this.handleChange}
-              />
-            </Form.Group>
-            <Button variant="dark" type="submit">
-              Buscar{" "}
-            </Button>
-          </Form>
-        </Row>
-        <Row>
-          <table>
-            {this.state.data.map((elm, idx) => (
-              <CompanyCard key={idx} {...elm} />
-            ))}
-          </table>
+          <Col>
+            <Row>
+              <p>Your cash: {cash} USD</p>
+            </Row>
+            <Row>
+              <Form onSubmit={this.addData}>
+                <Form.Group>
+                  <Form.Label>Empresas</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="searchBar"
+                    value={this.state.searchBar}
+                    onChange={this.handleChange}
+                  />
+                </Form.Group>
+                <Button variant="dark" type="submit">
+                  Buscar
+                </Button>
+              </Form>
+            </Row>
+            <Row>
+              <table>
+                {this.state.data.map((elm, idx) => (
+                  <CompanyCard key={idx} {...elm} />
+                ))}
+              </table>
+            </Row>
+          </Col>
+          <Col>
+            <table>
+              <thead>
+                <tr>
+                  <th>Companny</th>
+                  <th>Acciones</th>
+                  <th>Valor</th>
+                </tr>
+              </thead>
+              {this.props.loggedInUser.shares.map((elm, idx) => (
+                <SharesCard key={idx} {...elm} />
+              ))}
+            </table>
+          </Col>
         </Row>
       </Container>
     );
