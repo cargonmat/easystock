@@ -1,9 +1,5 @@
 import React, { Component } from "react";
 
-import * as am4core from "@amcharts/amcharts4/core";
-import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-
 import TradingServices from "../../../services/trading.services";
 import AuthServices from "../../../services/auth.services";
 import Chart from "./Chart";
@@ -12,8 +8,7 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-
-am4core.useTheme(am4themes_animated);
+import Col from "react-bootstrap/Col";
 
 class Details extends Component {
   constructor(props) {
@@ -26,9 +21,6 @@ class Details extends Component {
         .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","),
       actualValue: 0
     };
-    // this.cash = this.props.loggedInUser.cash
-    //   .toString()
-    //   .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
     this.tradingservices = new TradingServices();
     this.authservices = new AuthServices();
   }
@@ -46,10 +38,27 @@ class Details extends Component {
 
   handleChange = e => this.setState({ quantity: e.target.value });
 
-  
   buyShares = e => {
     e.preventDefault();
     let buy = (this.state.numCash -=
+      Number(this.state.quantity) * this.state.actualValue);
+    let shares = {
+      company: this.props.match.params.symbol,
+      shares: Number(this.state.quantity),
+      actualvalue: this.state.actualValue
+    };
+
+    // let index = this.props.loggedInUser.shares.indexOf(this.props.match.params.symbol)
+    // index > -1 ?
+    this.authservices.buyshares(buy, shares);
+    this.setState({ cash: buy });
+
+    console.log(this.props.match.params.shares);
+  };
+
+  sellShares = e => {
+    e.preventDefault();
+    let sell = (this.state.numCash +=
       Number(this.state.quantity) * this.state.actualValue);
     let shares = {
       company: this.props.match.params.symbol,
@@ -59,10 +68,10 @@ class Details extends Component {
 
     // let index = this.props.loggedInUser.shares.indexOf(this.props.match.params.symbol)
     // index > -1 ?
-    this.authservices.buyshares(buy, shares);
-    this.setState({ cash: buy });
-    //this.props.loggedInUser.cash = buy;
-    console.log(buy);
+    this.authservices.sellshares(sell, shares);
+    this.setState({ cash: sell });
+
+    console.log(sell);
   };
 
   componentWillUnmount() {
@@ -81,27 +90,49 @@ class Details extends Component {
             {/* //<Row id="chartdiv" style={{ width: "100%", height: "500px" }}></Row> */}
             <Chart {...this.props} />
             <Row>
-              <p>Tus ahorros: {this.state.cash} USD</p>
-            </Row>
-            <Row>
-              <p>Valor actual de acciones {this.state.actualValue} USD</p>
+              <Col>
+                {" "}
+                <p>Tus ahorros: {this.state.cash} USD</p>
+              </Col>
+
+              <Col>
+                <p>Valor actual de acciones {this.state.actualValue} USD</p>
+              </Col>
             </Row>
             <Row> {/* //<p>Valor actual: {this.result[0]} USD</p> */}</Row>
             <Row>
-              <Form onSubmit={this.buyShares}>
-                <Form.Group>
-                  <Form.Label>Adquirir Acciones</Form.Label>
-                  <Form.Control
-                    type="number"
-                    name="quantity"
-                    value={this.state.quantity}
-                    onChange={this.handleChange}
-                  />
-                </Form.Group>
-                <Button variant="dark" type="submit">
-                  Comprar
-                </Button>
-              </Form>
+              <Col>
+                <Form onSubmit={this.buyShares}>
+                  <Form.Group>
+                    <Form.Label>Adquirir Acciones</Form.Label>
+                    <Form.Control
+                      type="number"
+                      name="quantity"
+                      value={this.state.quantity}
+                      onChange={this.handleChange}
+                    />
+                  </Form.Group>
+                  <Button variant="dark" type="submit">
+                    Comprar
+                  </Button>
+                </Form>
+              </Col>
+              <Col>
+                <Form onSubmit={this.sellShares}>
+                  <Form.Group>
+                    <Form.Label>Vender Acciones</Form.Label>
+                    <Form.Control
+                      type="number"
+                      name="quantity"
+                      value={this.state.quantity}
+                      onChange={this.handleChange}
+                    />
+                  </Form.Group>
+                  <Button variant="dark" type="submit">
+                    Vender
+                  </Button>
+                </Form>
+              </Col>
             </Row>
           </Container>
         )}

@@ -76,13 +76,6 @@ class Profile extends Component {
           </Col>
           <Col>
             <table>
-              <thead>
-                <tr>
-                  <th>Companny</th>
-                  <th>Acciones</th>
-                  <th>Valor</th>
-                </tr>
-              </thead>
               {this.props.loggedInUser.shares.map((elm, idx) => (
                 <SharesCard key={idx} {...elm} />
               ))}

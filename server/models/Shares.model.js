@@ -1,12 +1,13 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const companySchema = new Schema(
+const sharesSchema = new Schema(
   {
     name: String,
     symbol: String,
     close: Number,
-    prevClose: Number
+    prevClose: Number,
+    users: [{ type: Schema.Types.ObjectId, ref: "User" }]
   },
   {
     timestamps: {
@@ -16,5 +17,5 @@ const companySchema = new Schema(
   }
 );
 
-const Company = mongoose.model("Company", companySchema);
-module.exports = Company;
+const Shares = mongoose.model("Shares", sharesSchema);
+module.exports = Shares;

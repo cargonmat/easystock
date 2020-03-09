@@ -24,4 +24,9 @@ export default class Services {
     this.service
       .post("/buyshares", { cash, shares })
       .then(response => response.data);
+      
+  sellshares = (cash, shares) =>
+    this.service
+      .post("/sellshares", { cash, shares })
+      .then(response => response.data);
 }

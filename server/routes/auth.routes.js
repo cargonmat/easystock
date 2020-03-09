@@ -115,23 +115,78 @@ authRoutes.get("/loggedin", (req, res, next) => {
 authRoutes.post("/buyshares", (req, res, next) => {
   // req.isAuthenticated() is defined by passport
   console.log(req.body.shares);
+  if (
+    req.isAuthenticated() &&
+    req.user.shares.some(elm => elm.company == req.body.shares.company)
+  ) {
+    User.findByIdAndUpdate(
+      req.user._id,
+
+      {
+        cash: req.body.cash,
+        $inc: {
+          // shares: req.body.shares
+          "shares.$[elem].shares": +req.body.shares.shares
+        }
+      },
+      {
+        arrayFilters: [{ "elem.company": req.body.shares.company }],
+        //upsert: true,
+        new: true
+      }
+    )
+      .then(userUpdated => {
+        console.log(req.body.shares);
+        res.status(200).json(userUpdated);
+      })
+      .catch(err => console.log(err));
+  } else if (req.isAuthenticated()) {
+    User.findByIdAndUpdate(
+      req.user._id,
+
+      {
+        cash: req.body.cash,
+        $push: {
+          shares: req.body.shares
+        }
+      },
+      {
+        //upsert: true,
+        new: true
+      }
+    )
+      .then(userUpdated => {
+        console.log(req.body.shares);
+        res.status(200).json(userUpdated);
+      })
+      .catch(err => console.log(err));
+  }
+});
+authRoutes.post("/sellshares", (req, res, next) => {
+  // req.isAuthenticated() is defined by passport
+  console.log(req.body.shares);
   if (req.isAuthenticated()) {
     User.findByIdAndUpdate(
       req.user._id,
-      { cash: req.body.cash, shares: req.body.shares },
-      { new: true }
+
+      {
+        cash: req.body.cash,
+        $inc: {
+          // shares: req.body.shares
+          "shares.$[elem].shares": -req.body.shares.shares
+        }
+      },
+      {
+        arrayFilters: [{ "elem.company": req.body.shares.company }],
+        //upsert: true,
+        new: true
+      }
     )
       .then(userUpdated => {
         console.log(req.body);
         res.status(200).json(userUpdated);
       })
       .catch(err => console.log(err));
-    // User.findByIdAndUpdate(
-    //   req.user._id,
-
-    //   //{ new: true }
-    // );
   }
 });
-
 module.exports = authRoutes;
