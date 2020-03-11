@@ -7,7 +7,7 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import TradingServices from "../../../services/trading.services";
 
 import Row from "react-bootstrap/Row";
-
+import Spinner from "react-bootstrap/Spinner";
 
 am4core.useTheme(am4themes_animated);
 
@@ -16,9 +16,10 @@ class Chart extends Component {
     super(props);
     this.state = {
       data: [],
-      chart: null
+      chart: null,
+      ready: false
     };
-    
+
     this.tradingservices = new TradingServices();
   }
 
@@ -31,7 +32,6 @@ class Chart extends Component {
         let values = Object.values(theCompanies);
         let dates = Object.keys(theCompanies);
         let result = values.map(a => Number(a["4. close"]));
-    
 
         //Monta el data para el chart
         // let data = [];
@@ -71,6 +71,7 @@ class Chart extends Component {
         this.state.chart.scrollbarX = scrollbarX;
 
         this.chart = this.state.chart;
+        this.setState({ ready: true });
       })
       .catch(err => console.log(err));
   }
@@ -80,8 +81,24 @@ class Chart extends Component {
   render() {
     return (
       <>
-          <Row id="chartdiv" style={{ width: "100%", height: "500px" }}></Row>
-        
+        <Spinner
+          animation="border"
+          style={{
+            marginLeft: 500,
+            marginTop: 200,
+            marginBottom: 200,
+            display: this.state.ready ? "none" : "inherit"
+          }}
+        />
+        <Row
+          as="div"
+          id="chartdiv"
+          style={{
+            width: "100%",
+            height: "500px",
+            display: this.state.ready ? "inherit" : "none"
+          }}
+        ></Row>
       </>
     );
   }

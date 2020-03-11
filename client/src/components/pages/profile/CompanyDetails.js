@@ -19,7 +19,8 @@ class Details extends Component {
       cash: this.props.loggedInUser.cash
         .toString()
         .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","),
-      actualValue: 0
+      actualValue: 0,
+      loggedInUser: true
     };
     this.tradingservices = new TradingServices();
     this.authservices = new AuthServices();
@@ -50,10 +51,10 @@ class Details extends Component {
 
     // let index = this.props.loggedInUser.shares.indexOf(this.props.match.params.symbol)
     // index > -1 ?
-    this.authservices.buyshares(buy, shares);
+    this.authservices.buyshares(buy, shares).then(updatedUser => {
+      this.props.setTheUser(updatedUser);
+    });
     this.setState({ cash: buy });
-
-    console.log(this.props.match.params.shares);
   };
 
   sellShares = e => {
@@ -68,7 +69,9 @@ class Details extends Component {
 
     // let index = this.props.loggedInUser.shares.indexOf(this.props.match.params.symbol)
     // index > -1 ?
-    this.authservices.sellshares(sell, shares);
+    this.authservices.sellshares(sell, shares).then(updatedUser => {
+      this.props.setTheUser(updatedUser);
+    });
     this.setState({ cash: sell });
 
     console.log(sell);
@@ -89,6 +92,7 @@ class Details extends Component {
             <h3>{this.props.match.params.symbol}</h3>
             {/* //<Row id="chartdiv" style={{ width: "100%", height: "500px" }}></Row> */}
             <Chart {...this.props} />
+
             <Row>
               <Col>
                 {" "}

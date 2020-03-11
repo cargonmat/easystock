@@ -60,7 +60,10 @@ class App extends Component {
             path="/profile"
             render={() =>
               this.state.loggedInUser ? (
-                <Profile loggedInUser={this.state.loggedInUser} />
+                <Profile
+                  loggedInUser={this.state.loggedInUser}
+                  setTheUser={this.setTheUser}
+                />
               ) : (
                 <Redirect to="/" />
               )
@@ -70,7 +73,11 @@ class App extends Component {
             path="/details/:symbol"
             render={props =>
               this.state.loggedInUser ? (
-                <Details loggedInUser={this.state.loggedInUser} {...props} />
+                <Details
+                  loggedInUser={this.state.loggedInUser}
+                  {...props}
+                  setTheUser={this.setTheUser}
+                />
               ) : (
                 <Redirect to="/" />
               )

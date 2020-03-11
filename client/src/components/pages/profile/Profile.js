@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import CompanyCard from "./CompanyCard";
 import SharesCard from "./SharesCard";
+import GrowthCard from "./GrowthCard";
 
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
@@ -17,11 +18,38 @@ class Profile extends Component {
     this.state = {
       data: [],
       listComp: [],
-      searchBar: ""
+      searchBar: "",
+      actualValue: []
     };
     this.tradingservices = new TradingServices();
   }
-  // componentDidMount = () => this.addData();
+  componentDidMount() {
+    for (let i = 0; i < this.props.loggedInUser.shares.length; i++) {
+      this.tradingservices
+        .daily(this.props.loggedInUser.shares[i].company)
+        .then(theCompanies => {
+          let values = Object.values(theCompanies).map(a =>
+            Number(a["4. close"])
+          );
+
+          let newObject = {
+            company: this.props.loggedInUser.shares[i].company,
+            value: values[0],
+            growth:
+              (values[0] - this.props.loggedInUser.shares[i].actualvalue) / 100
+          };
+          let newArr = this.state.actualValue;
+          newArr.push(newObject);
+          this.setState({ actualValue: newArr });
+
+          console.log(
+            // values[0] / this.props.loggedInUser.shares[i].actualvalue
+            newArr
+          );
+        })
+        .catch(err => console.log(err));
+    }
+  }
 
   handleChange = e => this.setState({ searchBar: e.target.value });
 
@@ -37,9 +65,16 @@ class Profile extends Component {
 
   render() {
     let cash = this.props.loggedInUser.cash
+      .toFixed(2)
       .toString()
       .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-
+    let growth = (
+      (this.props.loggedInUser.cash.toFixed(4) - 100000) /
+      100
+    ).toFixed(2);
+    let benefits = (this.props.loggedInUser.cash.toFixed(4) - 100000).toFixed(
+      2
+    );
     return (
       <Container>
         <Row>
@@ -48,7 +83,7 @@ class Profile extends Component {
         <Row>
           <Col>
             <Row>
-              <p>Your cash: {cash} USD</p>
+              <p>Tus ahorros: {cash} USD</p>
             </Row>
             <Row>
               <Form onSubmit={this.addData}>
@@ -78,6 +113,26 @@ class Profile extends Component {
             <table>
               {this.props.loggedInUser.shares.map((elm, idx) => (
                 <SharesCard key={idx} {...elm} />
+              ))}
+            </table>
+          </Col>
+        </Row>
+        <hr></hr>
+        <Row>
+          <p>Crecimiento actual: </p>
+          <p style={{ color: growth >= 0 ? "green" : "red" }}>{growth}%</p>
+        </Row>
+        <Row>
+          <p>Beneficio actual: </p>
+          <p style={{ color: benefits >= 0 ? "green" : "red" }}>
+            {benefits} USD
+          </p>
+        </Row>
+        <Row>
+          <Col>
+            <table>
+              {this.state.actualValue.map((elm, idx) => (
+                <GrowthCard key={idx} {...elm} />
               ))}
             </table>
           </Col>

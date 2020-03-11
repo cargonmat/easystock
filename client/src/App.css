@@ -1,3 +1,23 @@
 .noDetail {
+  color: rgba(255, 255, 255, 0.5);
+}
+.black {
+  color: inherit;
+}
+
+.black:hover {
   text-decoration: none;
+  color: rgba(24, 22, 22, 0.5);
+}
+.noDetail:hover {
+  text-decoration: none;
+  color: inherit;
+}
+.media {
+  border: 1px solid black;
+  margin: 10px 0px;
+  padding: 10px 10px;
+  border-radius: 10px;
+  box-shadow: 13px 10px 5px 0px rgba(0, 0, 0, 0.75);
+  background-color: rgb(229, 238, 238);
 }
