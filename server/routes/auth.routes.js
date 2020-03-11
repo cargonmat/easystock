@@ -113,11 +113,11 @@ authRoutes.get("/loggedin", (req, res, next) => {
 });
 
 authRoutes.post("/buyshares", (req, res, next) => {
-  // req.isAuthenticated() is defined by passport
   console.log(req.body.shares);
   if (
     req.isAuthenticated() &&
-    req.user.shares.some(elm => elm.company == req.body.shares.company)
+    req.user.shares.some(elm => elm.company == req.body.shares.company) &&
+    req.body.shares.shares > 0
   ) {
     User.findByIdAndUpdate(
       req.user._id,
@@ -140,7 +140,7 @@ authRoutes.post("/buyshares", (req, res, next) => {
         res.status(200).json(userUpdated);
       })
       .catch(err => console.log(err));
-  } else if (req.isAuthenticated()) {
+  } else if (req.isAuthenticated() && req.body.shares.shares > 0) {
     User.findByIdAndUpdate(
       req.user._id,
 
@@ -163,9 +163,25 @@ authRoutes.post("/buyshares", (req, res, next) => {
   }
 });
 authRoutes.post("/sellshares", (req, res, next) => {
-  // req.isAuthenticated() is defined by passport
   console.log(req.body.shares);
-  if (req.isAuthenticated()) {
+  // console.log(req.user.shares, "user\n", req.body.shares, "body");
+  console.log(
+    req.user.shares.some(
+      elm =>
+        elm.shares - req.body.shares.shares > 0 &&
+        elm.company == req.body.shares.company &&
+        req.body.shares.shares > 0
+    )
+  );
+  if (
+    req.isAuthenticated() &&
+    req.user.shares.some(
+      elm =>
+        elm.shares - req.body.shares.shares > 0 &&
+        elm.company == req.body.shares.company &&
+        elm.shares >= req.body.shares.shares
+    )
+  ) {
     User.findByIdAndUpdate(
       req.user._id,
 
@@ -184,6 +200,30 @@ authRoutes.post("/sellshares", (req, res, next) => {
     )
       .then(userUpdated => {
         console.log(req.body);
+        res.status(200).json(userUpdated);
+      })
+      .catch(err => console.log(err));
+  } else if ( req.isAuthenticated() && req.user.shares.some( elm => elm.company == req.body.shares.company && elm.shares - req.body.shares.shares == 0
+    ) &&
+    req.body.shares.shares > 0
+  ) {
+    console.log("----------------- borro accion ---------");
+    User.findByIdAndUpdate(
+      req.user._id,
+
+      {
+        cash: req.body.cash,
+        $pull: {
+          shares: { company: req.body.shares.company }
+        }
+      },
+      {
+        //upsert: true,
+        new: true
+      }
+    )
+      .then(userUpdated => {
+        console.log(req.user.shares);
         res.status(200).json(userUpdated);
       })
       .catch(err => console.log(err));
