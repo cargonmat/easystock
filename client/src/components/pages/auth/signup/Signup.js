@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
 
 import AuthServices from "../../../../services/auth.services";
 
@@ -38,9 +39,11 @@ class Signup extends Component {
 
   render() {
     return (
-      <Container>
-        <h1>Registro de usuarios</h1>
-
+      <Container className="register">
+        <Row className="justify-content-md-center">
+          <h1>Registro de usuarios</h1>
+        </Row>
+        <Row className="justify-content-md-center">
         <Form onSubmit={this.handleSubmit}>
           <Form.Group>
             <Form.Label>Usuario</Form.Label>
@@ -65,6 +68,7 @@ class Signup extends Component {
             Registrarse
           </Button>
         </Form>
+        </Row>
       </Container>
     );
   }

@@ -11,23 +11,20 @@ const Shares = props => {
         //style={{ visibility: props["shares"] === 0 ? "collapse" : "inherit" }}
       >
         <tr className="content">
-          <td>Nombre: {props["company"]},</td>
+          <td>Nombre {props["company"]}.</td>
         </tr>
         <tr className="content">
-          <td>Acciones: {props["shares"]},</td>
+          <td>Acciones {props["shares"]}.</td>
         </tr>
         <tr className="content">
-          <td>Precio de compra: {props["actualvalue"]} USD.</td>
+          <td>Precio de compra {props["actualvalue"]} USD.</td>
         </tr>
         {/* <tr className="content">
           <td>Precio de actual:{values}</td>
         </tr> */}
         <tr className="content">
           <td>
-            <Link
-              to={`/details/${props["company"]}`}
-              className="black"
-            >
+            <Link to={`/details/${props["company"]}`} className="black">
               Realizar transacciones
             </Link>
           </td>

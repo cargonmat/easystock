@@ -49,7 +49,10 @@ class Chart extends Component {
 
         //console.log(this.props.match.params.symbol);
         //appenda el data al chart
-        this.state.chart.data = this.state.data;
+        const chart = this.state.chart;
+        chart.data = chartdata;
+        this.setState({ chart: chart, data: chartdata });
+        // this.state.chart.data = this.state.data;
 
         //monta eje de fechas
         let dateAxis = this.state.chart.xAxes.push(new am4charts.DateAxis());

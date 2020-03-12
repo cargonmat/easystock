@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import CompanyCard from "./CompanyCard";
 import SharesCard from "./SharesCard";
 import GrowthCard from "./GrowthCard";
+import Pie from "./Pie";
 
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
@@ -41,11 +42,6 @@ class Profile extends Component {
           let newArr = this.state.actualValue;
           newArr.push(newObject);
           this.setState({ actualValue: newArr });
-
-          console.log(
-            // values[0] / this.props.loggedInUser.shares[i].actualvalue
-            newArr
-          );
         })
         .catch(err => console.log(err));
     }
@@ -119,22 +115,30 @@ class Profile extends Component {
         </Row>
         <hr></hr>
         <Row>
-          <p>Crecimiento actual: </p>
-          <p style={{ color: growth >= 0 ? "green" : "red" }}>{growth}%</p>
-        </Row>
-        <Row>
-          <p>Beneficio actual: </p>
-          <p style={{ color: benefits >= 0 ? "green" : "red" }}>
-            {benefits} USD
-          </p>
-        </Row>
-        <Row>
           <Col>
-            <table>
-              {this.state.actualValue.map((elm, idx) => (
-                <GrowthCard key={idx} {...elm} />
-              ))}
-            </table>
+            <Row>
+              <p>Crecimiento actual: </p>
+              <p style={{ color: growth >= 0 ? "green" : "red" }}>{growth}%</p>
+            </Row>
+            <Row>
+              <p>Beneficio actual: </p>
+              <p style={{ color: benefits >= 0 ? "green" : "red" }}>
+                {benefits} USD
+              </p>
+            </Row>
+            <Row>
+              <Col>
+                <table>
+                  {this.state.actualValue.map((elm, idx) => (
+                    <GrowthCard key={idx} {...elm} />
+                  ))}
+                </table>
+              </Col>
+            </Row>
+          </Col>
+          <Col>
+            <h3>Diversificación de cartera</h3>
+            <Pie {...this.props} />
           </Col>
         </Row>
       </Container>

@@ -32,7 +32,7 @@ class Navigation extends Component {
 
     return this.props.loggedInUser ? (
       <Navbar bg="dark" expand="lg" variant="dark">
-        <Navbar.Brand href="#home">easystock</Navbar.Brand>
+        <Navbar.Brand href="#home">Easystock</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
@@ -53,7 +53,7 @@ class Navigation extends Component {
       </Navbar>
     ) : (
       <Navbar bg="dark" expand="lg" variant="dark">
-        <Navbar.Brand href="/">easystock</Navbar.Brand>
+        <Navbar.Brand href="/">Easystock</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
