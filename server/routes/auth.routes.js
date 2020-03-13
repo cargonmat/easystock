@@ -113,7 +113,7 @@ authRoutes.get("/loggedin", (req, res, next) => {
 });
 
 authRoutes.post("/buyshares", (req, res, next) => {
-  console.log(req.body.shares);
+ 
   if (
     req.isAuthenticated() &&
     req.user.shares.some(elm => elm.company == req.body.shares.company) &&
@@ -136,7 +136,7 @@ authRoutes.post("/buyshares", (req, res, next) => {
       }
     )
       .then(userUpdated => {
-        console.log(req.body.shares);
+        
         res.status(200).json(userUpdated);
       })
       .catch(err => console.log(err));
@@ -156,23 +156,16 @@ authRoutes.post("/buyshares", (req, res, next) => {
       }
     )
       .then(userUpdated => {
-        console.log(req.body.shares);
+       
         res.status(200).json(userUpdated);
       })
       .catch(err => console.log(err));
   }
 });
 authRoutes.post("/sellshares", (req, res, next) => {
-  console.log(req.body.shares);
+
   // console.log(req.user.shares, "user\n", req.body.shares, "body");
-  console.log(
-    req.user.shares.some(
-      elm =>
-        elm.shares - req.body.shares.shares > 0 &&
-        elm.company == req.body.shares.company &&
-        req.body.shares.shares > 0
-    )
-  );
+  
   if (
     req.isAuthenticated() &&
     req.user.shares.some(
@@ -223,7 +216,6 @@ authRoutes.post("/sellshares", (req, res, next) => {
       }
     )
       .then(userUpdated => {
-        console.log(req.user.shares);
         res.status(200).json(userUpdated);
       })
       .catch(err => console.log(err));

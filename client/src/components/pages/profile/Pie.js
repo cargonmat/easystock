@@ -65,6 +65,4 @@ class Pie extends Component {
   }
 }
 export default Pie;
-// Create chart instance
-//let chart = am4core.create("chartdiv", am4charts.PieChart);
-// Add data
+

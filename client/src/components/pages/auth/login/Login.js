@@ -46,7 +46,7 @@ class Login extends Component {
         </Row>
         <Row className="justify-content-md-center">
           <Form onSubmit={this.handleSubmit}>
-            <Form.Group>
+            <Form.Group className="centered">
               <Form.Label>Usuario</Form.Label>
               <Form.Control
                 type="text"
@@ -55,7 +55,7 @@ class Login extends Component {
                 onChange={this.handleChange}
               />
             </Form.Group>
-            <Form.Group>
+            <Form.Group className="centered">
               <Form.Label>Contraseña</Form.Label>
               <Form.Control
                 type="password"

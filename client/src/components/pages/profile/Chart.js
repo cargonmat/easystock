@@ -34,11 +34,10 @@ class Chart extends Component {
         let result = values.map(a => Number(a["4. close"]));
 
         //Monta el data para el chart
-        // let data = [];
+       
         let chartdata = [];
         for (let i = 1; i < result.length; i++) {
-          //Data tiene que ser: Array de obj con pares XY con un ¿name?
-          //this.setState({ data: result[0] });
+          
           chartdata.push({
             date: new Date(dates[0 + i]), //fecha del valor
             name: "name" + i,
@@ -47,12 +46,11 @@ class Chart extends Component {
           this.setState({ data: chartdata });
         }
 
-        //console.log(this.props.match.params.symbol);
-        //appenda el data al chart
+      
         const chart = this.state.chart;
         chart.data = chartdata;
         this.setState({ chart: chart, data: chartdata });
-        // this.state.chart.data = this.state.data;
+        
 
         //monta eje de fechas
         let dateAxis = this.state.chart.xAxes.push(new am4charts.DateAxis());

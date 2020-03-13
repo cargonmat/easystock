@@ -44,30 +44,30 @@ class Signup extends Component {
           <h1>Registro de usuarios</h1>
         </Row>
         <Row className="justify-content-md-center">
-        <Form onSubmit={this.handleSubmit}>
-          <Form.Group>
-            <Form.Label>Usuario</Form.Label>
-            <Form.Control
-              type="text"
-              name="username"
-              value={this.state.username}
-              onChange={this.handleChange}
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Contraseña</Form.Label>
-            <Form.Control
-              type="password"
-              name="password"
-              value={this.state.password}
-              onChange={this.handleChange}
-            />
-          </Form.Group>
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Group className="centered">
+              <Form.Label>Usuario</Form.Label>
+              <Form.Control
+                type="text"
+                name="username"
+                value={this.state.username}
+                onChange={this.handleChange}
+              />
+            </Form.Group>
+            <Form.Group className="centered">
+              <Form.Label>Contraseña</Form.Label>
+              <Form.Control
+                type="password"
+                name="password"
+                value={this.state.password}
+                onChange={this.handleChange}
+              />
+            </Form.Group>
 
-          <Button variant="dark" type="submit">
-            Registrarse
-          </Button>
-        </Form>
+            <Button variant="dark" type="submit">
+              Registrarse
+            </Button>
+          </Form>
         </Row>
       </Container>
     );

@@ -54,7 +54,11 @@ class Profile extends Component {
     this.tradingservices
       .search(this.state.searchBar)
       .then(theCompanies => {
-        this.setState({ data: theCompanies });
+        if (theCompanies === "") {
+          this.setState({ data: [] });
+        } else {
+          this.setState({ data: theCompanies });
+        }
       })
       .catch(err => console.log(err));
   };
@@ -77,7 +81,7 @@ class Profile extends Component {
           <h1>Bienvenido {this.props.loggedInUser.username}</h1>
         </Row>
         <Row>
-          <Col>
+          <Col md={5} lg={5}>
             <Row>
               <p>Tus ahorros: {cash} USD</p>
             </Row>
@@ -105,7 +109,7 @@ class Profile extends Component {
               </table>
             </Row>
           </Col>
-          <Col>
+          <Col md={7} lg={7}>
             <table>
               {this.props.loggedInUser.shares.map((elm, idx) => (
                 <SharesCard key={idx} {...elm} />
@@ -115,7 +119,7 @@ class Profile extends Component {
         </Row>
         <hr></hr>
         <Row>
-          <Col>
+          <Col md={4} lg={4}>
             <Row>
               <p>Crecimiento actual: </p>
               <p style={{ color: growth >= 0 ? "green" : "red" }}>{growth}%</p>
@@ -136,8 +140,12 @@ class Profile extends Component {
               </Col>
             </Row>
           </Col>
-          <Col>
+          <Col md={8} lg={8}>
             <h3>Diversificación de cartera</h3>
+            <p>
+              Cuanto mayor sea la variedad de empresas, más seguras estarán tus
+              inversiones.
+            </p>
             <Pie {...this.props} />
           </Col>
         </Row>

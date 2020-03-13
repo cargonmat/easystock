@@ -49,8 +49,7 @@ class Details extends Component {
       actualvalue: this.state.actualValue
     };
 
-    // let index = this.props.loggedInUser.shares.indexOf(this.props.match.params.symbol)
-    // index > -1 ?
+  
     this.authservices.buyshares(buy, shares).then(updatedUser => {
       this.props.setTheUser(updatedUser);
     });
@@ -67,14 +66,12 @@ class Details extends Component {
       actualvalue: this.state.actualValue
     };
 
-    // let index = this.props.loggedInUser.shares.indexOf(this.props.match.params.symbol)
-    // index > -1 ?
+  
     this.authservices.sellshares(sell, shares).then(updatedUser => {
       this.props.setTheUser(updatedUser);
     });
     this.setState({ cash: sell });
 
-    console.log(sell);
   };
 
   componentWillUnmount() {
@@ -90,7 +87,6 @@ class Details extends Component {
           <Container>
             <h1>Trading data</h1>
             <h3>{this.props.match.params.symbol}</h3>
-            {/* //<Row id="chartdiv" style={{ width: "100%", height: "500px" }}></Row> */}
             <Chart {...this.props} />
 
             <Row>
@@ -103,7 +99,6 @@ class Details extends Component {
                 <p>Valor actual de acciones {this.state.actualValue} USD</p>
               </Col>
             </Row>
-            <Row> {/* //<p>Valor actual: {this.result[0]} USD</p> */}</Row>
             <Row>
               <Col>
                 <Form onSubmit={this.buyShares}>

@@ -30,6 +30,12 @@
   width: 287px;
   height: 253px;
 }
+td {
+  padding-right: 10px;
+}
+.btn {
+  padding: 6px 80px;
+}
 .media {
   border: 1px solid black;
   margin: 10px 0px;
